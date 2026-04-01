@@ -76,7 +76,7 @@ $ poetry add ruff taskipy --group dev
 coloca essa configuração no pyproject.toml
 
 [tool.ruff]
-line-length = 79
+line-length = 90
 exclude = [
   ".bzr",
   ".direnv",
@@ -124,3 +124,69 @@ lint = 'ruff check'
 pre_format = 'ruff check --fix'
 format = 'ruff format'
 run = 'fastapi dev products_api/app.py' (agora inicia o projeto com 'poetry run task run')
+
+
+## Vídeo 02 - Iniciado em 23/03/26
+
+Pydantic: lib python que ajuda a estruturar melhor os dados, cria schema de dados e validação de dados
+
+$ poetry add pydantic
+
+36'
+$ poetry add "sqlalchemy[asyncio]" "asyncpg"
+
+Qual a diferença entre instalar o sqlalchemy com:
+
+1 - poetry add "sqlalchemy[asyncio]" 
+2 - poetry add "sqlalchemy[asyncio]" "asyncpg"
+
+Resumo prático
+
+* Opção 1: Só instala o "esqueleto" async. Útil se você já tem o driver instalado ou vai usar SQLite com aiosqlite depois.
+* Opção 2: Instala tudo necessário para PostgreSQL com async. É o que você quer na maioria dos casos com Poetry + PostgreSQL async.
+
+Nota: Se estiver usando MySQL, usaria aiomysql no lugar do asyncpg. Para SQLite, usaría aiosqlite.
+
+
+27/03/26
+
+1h 14'
+Instala o aiosqlite
+$ poetry add aiosqlite
+$ poetry add pydantic-settings
+
+
+1h 32'
+instala o alembic
+$ poetry add alembic
+
+- inicializar o alembic
+$ poetry run alembic init migrations (cria a pasta migrations)
+
+- criando a tabela no banco
+ $ poetry run alembic revision --autogenerate -m "create products table" 
+
+- aplicando a migração
+ $ poetry run alembic upgrade head
+
+- revertendo a migração
+ $ poetry run alembic downgrade -1
+
+
+## Vídeo 03 - Iniciado em 01/04/26
+
+23'
+importa o Depends de fastapi
+
+async def create_product(
+  product: ProductCreateSchema,
+  db: AsyncSession = Depends(get_session)
+):
+
+53'
+Vê no SQLite Viewer os produtos criados
+
+1h 29'
+Ao atualizar um Produto, codifica para não atualizar com um nome que já exista no banco, exceto o próprio produto que está sendo atualizado
+
+parei com 1h e 40'
